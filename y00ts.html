@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>y00ts edit by Normiez</title>
+    <style>
+        /* CSS Styles remain largely the same */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 20px;
+            background-color: red;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.5;
+        }
+        .container {
+            background-color: red;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .header-image-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+            max-width: 100%;
+        }
+        #headerImage {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        .header-link-overlay {
+            position: absolute;
+            display: block;
+            border-radius: 50%;
+            z-index: 5;
+        }
+        #headerLinkTwitter {
+            top: 65%;
+            left: 9%;
+            width: 10%;
+            height: 18%;
+        }
+        #headerLinkY00ts {
+            top: 65%;
+            left: 26%;
+            width: 10%;
+            height: 18%;
+        }
+
+
+        .search-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ff8080;
+            border-radius: 4px;
+            flex: 1 1 auto;
+            min-width: 150px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            text-transform: none;
+            background-color: #cc0000;
+            color: white;
+        }
+        input[type="number"]::placeholder {
+            text-transform: uppercase;
+            color: #ffcccc;
+        }
+
+        button, .action-button {
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+        button:active, .action-button:active {
+            transform: translateY(1px);
+        }
+
+        #searchBtn, #toggleFeatureBtn, #downloadBtn {
+            background-color: #0D98BA;
+        }
+        #searchBtn:hover, #toggleFeatureBtn:hover, #downloadBtn:hover {
+            background-color: #0A7A9A;
+        }
+
+        #resetAppBtn {
+            background-color: #f0ad4e;
+        }
+        #resetAppBtn:hover {
+            background-color: #ec971f;
+        }
+
+        #toggleFeatureBtn {
+            margin-bottom: 20px;
+            font-size: 1em;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+            padding: 10px 15px;
+        }
+         #toggleFeatureBtn.off {
+            background-color: #f0ad4e;
+        }
+        #toggleFeatureBtn.off:hover {
+            background-color: #ec971f;
+        }
+        #toggleFeatureBtn.on {
+            background-color: #5cb85c;
+        }
+        #toggleFeatureBtn.on:hover {
+            background-color: #4cae4c;
+        }
+
+        #result {
+            margin-top: 10px;
+        }
+
+        .image-stack-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            aspect-ratio: 1 / 1;
+            margin: 15px auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .image-stack-container img {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        #nftImage {
+            position: relative;
+            z-index: 1;
+            border: 1px solid #ff8080;
+        }
+
+        #cigarOverlayImage { z-index: 3; }
+
+        .error, .overlay-error {
+            color: #ffff00;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .loading {
+            margin-top: 10px;
+            font-style: italic;
+            color: white;
+        }
+        #downloadBtn {
+            display: block;
+            width: -moz-fit-content;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Image Source and Alt Text (Remains as is per request) -->
+    <div class="header-image-container">
+        <img id="headerImage" src="https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/header.png" alt="Y00TS NFT FINDER HEADER">
+        <a id="headerLinkTwitter" class="header-link-overlay" href="https://x.com/y00tsNFT" target="_blank" rel="noopener noreferrer" aria-label="Visit y00ts on X"></a>
+        <a id="headerLinkY00ts" class="header-link-overlay" href="https://www.y00ts.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit y00ts.com"></a>
+    </div>
+
+    <!-- Search Input and Buttons -->
+    <div class="search-controls">
+        <input type="number" id="y00tIdInput" placeholder="YOUR Y00T ID" min="1" max="15000">
+        <button id="searchBtn">SEARCH</button>
+        <button id="resetAppBtn">RESET</button>
+    </div>
+
+    <!-- Single Toggle Button for Cigar -->
+    <button id="toggleFeatureBtn" class="off">CIGAR</button>
+
+
+    <!-- Results Area -->
+    <div id="result">
+        <div id="loading" class="loading" style="display:none;">LOADING DATA...</div>
+        <div id="error" class="error"></div>
+
+        <!-- Container for Stacking Images (NFT + Cigar) -->
+        <!-- UPDATED: Default image source -->
+        <div id="imageStackContainer" class="image-stack-container" style="display: block;">
+            <img id="nftImage" src="https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/preview%20y00ts.png" alt="PREVIEW Y00T IMAGE">
+            <img id="cigarOverlayImage" src="" alt="Cigar Overlay" style="display:none;">
+        </div>
+        <p id="cigarError" class="overlay-error" style="display:none;"></p>
+        <button id="downloadBtn" class="action-button" style="display:none;">DOWNLOAD IMAGE</button>
+    </div>
+</div>
+
+<script>
+    // --- State Variables ---
+    let showCigar = false;
+    let lastFetchedMetadata = null;
+
+    // --- AbortController ---
+    let currentFetchController = null;
+
+    // --- Load IDs ---
+    let currentNftImageLoadId = 0;
+    let currentCigarLoadId = 0;
+
+    // --- Constants ---
+    // UPDATED: Preview image URL constant
+    const PREVIEW_IMAGE_URL = "https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/preview%20y00ts.png";
+    const PREVIEW_IMAGE_ALT = "PREVIEW Y00T IMAGE";
+
+    // --- DOM Element References ---
+    const y00tIdInput = document.getElementById('y00tIdInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const resetAppBtn = document.getElementById('resetAppBtn');
+    const toggleFeatureBtn = document.getElementById('toggleFeatureBtn');
+    const imageStackContainer = document.getElementById('imageStackContainer');
+    const nftImage = document.getElementById('nftImage');
+    const cigarOverlayImage = document.getElementById('cigarOverlayImage');
+    const errorDiv = document.getElementById('error');
+    const cigarError = document.getElementById('cigarError');
+    const loadingDiv = document.getElementById('loading');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // --- Event Listeners ---
+    searchBtn.addEventListener('click', fetchY00t);
+    resetAppBtn.addEventListener('click', resetSearch);
+
+    toggleFeatureBtn.addEventListener('click', () => {
+        showCigar = !showCigar;
+        toggleFeatureBtn.classList.toggle('off', !showCigar);
+        toggleFeatureBtn.classList.toggle('on', showCigar);
+        updateCigarVisibility();
+    });
+
+    downloadBtn.addEventListener('click', handleDownload);
+
+    y00tIdInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            fetchY00t();
+        }
+    });
+
+    // --- UI Update Functions ---
+
+    function clearFetchedDataUI(showPreview = false) {
+        if (showPreview) {
+            imageStackContainer.style.display = 'block';
+            nftImage.src = PREVIEW_IMAGE_URL; // Uses updated constant
+            nftImage.alt = PREVIEW_IMAGE_ALT; // Uses updated constant
+        } else {
+            imageStackContainer.style.display = 'none';
+            nftImage.src = '';
+            nftImage.alt = 'y00t NFT';
+        }
+
+        nftImage.onload = null;
+        nftImage.onerror = null;
+
+        cigarOverlayImage.onload = null;
+        cigarOverlayImage.onerror = null;
+        cigarOverlayImage.src = '';
+        cigarOverlayImage.style.display = 'none';
+
+        downloadBtn.style.display = 'none';
+        errorDiv.textContent = '';
+        cigarError.textContent = '';
+        cigarError.style.display = 'none';
+
+        loadingDiv.style.display = 'none';
+        lastFetchedMetadata = null;
+    }
+
+    function resetSearch() {
+        if (currentFetchController) {
+            currentFetchController.abort();
+            currentFetchController = null;
+        }
+        currentNftImageLoadId++;
+        currentCigarLoadId++;
+
+        y00tIdInput.value = '';
+        clearFetchedDataUI(true);
+
+        showCigar = false;
+        toggleFeatureBtn.classList.add('off');
+        toggleFeatureBtn.classList.remove('on');
+
+        if (document.activeElement !== y00tIdInput) {
+             y00tIdInput.focus();
+        }
+    }
+
+    function updateCigarVisibility() {
+        const canShow = showCigar && lastFetchedMetadata && imageStackContainer.style.display !== 'none';
+        displayOverlayImage(lastFetchedMetadata, canShow);
+    }
+
+
+    /**
+     * Loads and displays (or hides) the cigar overlay image.
+     * Fetches the correct overlay based on the 'Fur' trait from metadata.
+     */
+    function displayOverlayImage(metadata, shouldShowExplicitly) {
+        const imgElement = cigarOverlayImage;
+        const errorElement = cigarError;
+        // UPDATED: Cigar overlay base URL (directory containing the overlays)
+        const baseUrl = `https://raw.githubusercontent.com/zio06/degods/refs/heads/y00ts-cigar/`;
+        // Assumes cigar overlay filename depends on the trait value (e.g., Bone.png)
+        const fileNamePartConstructor = (traitVal) => `${encodeURIComponent(traitVal)}.png`;
+        const errorMessagePrefix = `"CIGAR"`;
+        const relevantGlobalLoadIdGetter = () => currentCigarLoadId;
+
+        // --- Hiding Logic ---
+        if (!shouldShowExplicitly) {
+            imgElement.onload = null;
+            imgElement.onerror = null;
+            imgElement.src = '';
+            imgElement.style.display = 'none';
+            errorElement.style.display = 'none';
+            errorElement.textContent = '';
+            return;
+        }
+
+        // --- Showing Logic ---
+        const localLoadId = relevantGlobalLoadIdGetter();
+
+        errorElement.style.display = 'none';
+        errorElement.textContent = '';
+
+        if (!metadata || !metadata.attributes || !Array.isArray(metadata.attributes) || metadata.attributes.length === 0) {
+            console.warn(`NO METADATA OR ATTRIBUTES ON NFT FOR ${errorMessagePrefix} VARIANT.`);
+            imgElement.style.display = 'none';
+            return;
+        }
+
+        // UPDATED: Find the 'Fur' attribute
+        const relevantAttribute = metadata.attributes.find(
+            attr => attr.trait_type && attr.trait_type.toLowerCase() === "fur" // Use "fur" trait
+        );
+
+        if (relevantAttribute && relevantAttribute.value) {
+            const attributeValue = relevantAttribute.value;
+            const fileNamePart = fileNamePartConstructor(attributeValue);
+            const imageUrl = baseUrl + fileNamePart;
+
+            console.log(`Attempting to load cigar overlay: ${imageUrl}`);
+
+            imgElement.onload = null;
+            imgElement.onerror = null;
+            imgElement.crossOrigin = "Anonymous";
+
+            imgElement.onload = function() {
+                if (localLoadId !== relevantGlobalLoadIdGetter()) {
+                     console.log(`OLD ${errorMessagePrefix} ONLOAD EVENT IGNORED (CAPTURED ID: ${localLoadId}, CURRENT ID: ${relevantGlobalLoadIdGetter()}).`);
+                    return;
+                }
+                console.log(`${errorMessagePrefix} loaded successfully.`);
+                imgElement.style.display = 'block';
+                errorElement.style.display = 'none';
+            }
+            imgElement.onerror = function() {
+                if (localLoadId !== relevantGlobalLoadIdGetter()) {
+                    console.log(`OLD ${errorMessagePrefix} ONERROR EVENT IGNORED (CAPTURED ID: ${localLoadId}, CURRENT ID: ${relevantGlobalLoadIdGetter()}).`);
+                    return;
+                }
+                imgElement.style.display = 'none';
+                console.error(`${errorMessagePrefix} VARIANT FOR TRAIT "${attributeValue.toUpperCase()}" NOT FOUND. URL: ${imageUrl}.`);
+            }
+            imgElement.src = imageUrl;
+        } else {
+            imgElement.style.display = 'none';
+            // UPDATED: Warning message uses "Fur"
+            console.warn(`REQUIRED ATTRIBUTE ("${"fur".toUpperCase()}") NOT FOUND FOR THIS NFT TO APPLY ${errorMessagePrefix}.`);
+        }
+    }
+
+
+    // --- Core Logic ---
+    async function fetchY00t() {
+        const idValueTrimmed = y00tIdInput.value.trim();
+
+        if (currentFetchController) {
+            currentFetchController.abort();
+        }
+        currentFetchController = new AbortController();
+        const { signal } = currentFetchController;
+
+        const localNftImageLoadId = ++currentNftImageLoadId;
+        currentCigarLoadId++;
+
+        if (!idValueTrimmed) {
+            clearFetchedDataUI(true);
+            errorDiv.textContent = 'PLEASE ENTER A Y00T ID.';
+            loadingDiv.style.display = 'none';
+            if (currentFetchController.signal === signal) currentFetchController = null;
+            return;
+        }
+
+        clearFetchedDataUI(false);
+        loadingDiv.style.display = 'block';
+        errorDiv.textContent = '';
+
+        const id = parseInt(idValueTrimmed);
+
+        if (isNaN(id) || id < 1 || id > 15000) {
+            errorDiv.textContent = 'PLEASE ENTER A VALID ID (BETWEEN 1 AND 15000).';
+            loadingDiv.style.display = 'none';
+            clearFetchedDataUI(true);
+            if (currentFetchController.signal === signal) currentFetchController = null;
+            return;
+        }
+
+        const metadataIndex = id - 1;
+        const metadataUrl = `https://metadata.y00ts.com/y/${metadataIndex}.json`;
+
+        try {
+            console.log(`Fetching: ${metadataUrl}`);
+            const response = await fetch(metadataUrl, { signal });
+
+            if (!response.ok) {
+                 throw new Error(`FAILED TO FETCH Y00T DATA. STATUS: ${response.status}`);
+            }
+            const metadata = await response.json();
+            lastFetchedMetadata = metadata;
+
+            if (metadata && metadata.image) {
+                nftImage.onload = null;
+                nftImage.onerror = null;
+                nftImage.crossOrigin = "Anonymous";
+
+                nftImage.onload = () => {
+                    if (localNftImageLoadId !== currentNftImageLoadId) {
+                        console.log(`OLD NFT IMAGE ONLOAD EVENT IGNORED (CAPTURED ID: ${localNftImageLoadId}, CURRENT ID: ${currentNftImageLoadId}).`);
+                        return;
+                    }
+                    console.log(`y00t Image #${id} loaded successfully.`);
+                    loadingDiv.style.display = 'none';
+                    imageStackContainer.style.display = 'block';
+                    nftImage.alt = `y00t NFT #${id}`;
+                    downloadBtn.style.display = 'block';
+                    updateCigarVisibility();
+                }
+                nftImage.onerror = () => {
+                    if (localNftImageLoadId !== currentNftImageLoadId) {
+                         console.log(`OLD NFT IMAGE ONERROR EVENT IGNORED (CAPTURED ID: ${localNftImageLoadId}, CURRENT ID: ${currentNftImageLoadId}).`);
+                        return;
+                    }
+                    console.error(`Failed to load main y00t image for #${id} from ${metadata.image}`);
+                    loadingDiv.style.display = 'none';
+                    errorDiv.textContent = 'FAILED TO LOAD MAIN NFT IMAGE.';
+                    clearFetchedDataUI(true);
+                }
+                console.log(`Setting main image src: ${metadata.image}`);
+                nftImage.src = metadata.image;
+
+            } else {
+                throw new Error('INVALID METADATA FORMAT OR "IMAGE" FIELD NOT FOUND.');
+            }
+
+        } catch (err) {
+            if (err.name === 'AbortError') {
+                console.log(`Fetch for y00t ID ${idValueTrimmed} was aborted.`);
+                 if (localNftImageLoadId === currentNftImageLoadId) {
+                    loadingDiv.style.display = 'none';
+                    if (!y00tIdInput.value.trim() && imageStackContainer.style.display === 'none') {
+                         clearFetchedDataUI(true);
+                    }
+                 }
+            } else {
+                console.error("Error fetching y00t:", err);
+                errorDiv.textContent = `AN ERROR OCCURRED: ${err.message.toUpperCase()}`;
+                clearFetchedDataUI(true);
+                loadingDiv.style.display = 'none';
+            }
+        } finally {
+            if (currentFetchController && currentFetchController.signal === signal) {
+                currentFetchController = null;
+            }
+        }
+    }
+
+    async function handleDownload() {
+        if (!lastFetchedMetadata || !nftImage.src || nftImage.src === PREVIEW_IMAGE_URL || imageStackContainer.style.display === 'none' || !nftImage.complete || nftImage.naturalWidth === 0) {
+            alert("ACTUAL NFT IMAGE NOT FULLY LOADED OR UNAVAILABLE FOR DOWNLOAD.");
+            return;
+        }
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const TARGET_WIDTH = 1000;
+        const TARGET_HEIGHT = 1000;
+        canvas.width = TARGET_WIDTH;
+        canvas.height = TARGET_HEIGHT;
+
+        const idForFilename = y00tIdInput.value || 'NFT';
+
+        const drawImageToCanvas = (imgElement) => {
+             return new Promise((resolve) => {
+                if (imgElement.style.display !== 'none' && imgElement.complete && imgElement.naturalWidth > 0) {
+                    const hRatio = TARGET_WIDTH / imgElement.naturalWidth;
+                    const vRatio = TARGET_HEIGHT / imgElement.naturalHeight;
+                    const ratio = Math.min(hRatio, vRatio);
+                    const scaledWidth = imgElement.naturalWidth * ratio;
+                    const scaledHeight = imgElement.naturalHeight * ratio;
+                    const offsetX = (TARGET_WIDTH - scaledWidth) / 2;
+                    const offsetY = (TARGET_HEIGHT - scaledHeight) / 2;
+                    ctx.drawImage(imgElement, offsetX, offsetY, scaledWidth, scaledHeight);
+                    resolve();
+                }
+                else if (imgElement.src && imgElement.style.display !== 'none') {
+                    console.warn(`Image ${imgElement.id || imgElement.alt} was not fully loaded for canvas draw, attempting reload.`);
+                    const tempImg = new Image();
+                    tempImg.crossOrigin = "Anonymous";
+                    tempImg.onload = () => {
+                       const hRatio = TARGET_WIDTH / tempImg.naturalWidth;
+                       const vRatio = TARGET_HEIGHT / tempImg.naturalHeight;
+                       const ratio = Math.min(hRatio, vRatio);
+                       const scaledWidth = tempImg.naturalWidth * ratio;
+                       const scaledHeight = tempImg.naturalHeight * ratio;
+                       const offsetX = (TARGET_WIDTH - scaledWidth) / 2;
+                       const offsetY = (TARGET_HEIGHT - scaledHeight) / 2;
+                       ctx.drawImage(tempImg, offsetX, offsetY, scaledWidth, scaledHeight);
+                       resolve();
+                    };
+                    tempImg.onerror = () => {
+                        console.error(`FAILED TO RELOAD OVERLAY ${imgElement.alt.toUpperCase()} FOR DOWNLOAD DURING CANVAS DRAW. SKIPPING.`);
+                        resolve();
+                    };
+                    tempImg.src = imgElement.src;
+                } else {
+                    resolve();
+                }
+            });
+        };
+
+        let filenameParts = [`Y00T_${idForFilename}`];
+
+        try {
+            await drawImageToCanvas(nftImage);
+
+            if (showCigar) {
+                await drawImageToCanvas(cigarOverlayImage);
+                if (cigarOverlayImage.style.display !== 'none' && cigarOverlayImage.src) {
+                    filenameParts.push("CIGAR");
+                }
+            }
+
+            filenameParts.push(`${TARGET_WIDTH}X${TARGET_HEIGHT}.PNG`);
+            const finalFilename = filenameParts.join('_').replace(/__+/g, '_');
+
+            triggerCanvasDownload(canvas, finalFilename);
+
+        } catch (e) {
+            console.error("ERROR DURING IMAGE COMPOSITING FOR DOWNLOAD:", e);
+            alert("AN ERROR OCCURRED WHILE PREPARING THE IMAGE FOR DOWNLOAD. CHECK CONSOLE FOR DETAILS.");
+        }
+    }
+
+    function triggerCanvasDownload(canvas, filename) {
+         try {
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (e) {
+            console.error("ERROR CREATING DATA URL OR DOWNLOADING:", e);
+            alert("FAILED TO CREATE IMAGE FOR DOWNLOAD. THIS CAN SOMETIMES HAPPEN DUE TO BROWSER SECURITY RESTRICTIONS (CORS).");
+        }
+    }
+
+    // --- Initial Setup ---
+    // console.log("y00ts Finder Initialized.");
+
+</script>
+</body>
+</html>
