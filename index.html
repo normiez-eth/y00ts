@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>y00ts NFT Finder</title>
     <style>
-        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";margin:20px;background-color:red;color:white;display:flex;flex-direction:column;align-items:center;line-height:1.5}
-        .container{background-color:red;padding:20px;border-radius:8px;width:90%;max-width:500px;text-align:center;text-transform:uppercase;color:white}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";margin:20px;color:white;display:flex;flex-direction:column;align-items:center;line-height:1.5;background-size:cover;background-position:center center;background-repeat:no-repeat;background-attachment:fixed}
+        .container{background-color:transparent;padding:20px;border-radius:8px;width:90%;max-width:500px;text-align:center;text-transform:uppercase;color:white}
         .header-image-container{position:relative;display:inline-block;margin-bottom:20px;max-width:100%}
         #headerImage{max-width:100%;height:auto;display:block}
         .header-link-overlay{position:absolute;display:block;border-radius:50%;z-index:5}
         #headerLinkTwitter{top:65%;left:9%;width:10%;height:18%}
         #headerLinkY00ts{top:65%;left:26%;width:10%;height:18%}
         .search-controls{display:flex;justify-content:center;align-items:center;gap:10px;margin-bottom:15px}
-        input[type="number"]{padding:10px;border:1px solid #ff8080;border-radius:4px;flex:1 1 auto;min-width:150px;box-sizing:border-box;font-size:1rem;text-transform:none;background-color:#cc0000;color:white}
-        input[type="number"]::placeholder{text-transform:uppercase;color:#ffcccc}
+        input[type="number"]{padding:10px;border:1px solid #ccc;border-radius:4px;flex:1 1 auto;min-width:150px;box-sizing:border-box;font-size:1rem;text-transform:none;background-color:white;color:#333}
+        input[type="number"]::placeholder{text-transform:uppercase;color:#999}
         button,.action-button{padding:10px 15px;color:white;border:none;border-radius:4px;cursor:pointer;transition:background-color .2s ease-in-out,transform .1s ease;font-size:1rem;white-space:nowrap}
         button:active,.action-button:active{transform:translateY(1px)}
         #searchBtn,#toggleFeatureBtn,#downloadBtn{background-color:#0D98BA}
@@ -31,8 +31,8 @@
         .image-stack-container img{display:block;position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;object-fit:contain;pointer-events:none}
         #nftImage{position:relative;z-index:1;border:1px solid #ff8080}
         #cigarOverlayImage{z-index:3}
-        .error,.overlay-error{color:#ffff00;margin-top:10px;font-size:.9em}
-        .loading{margin-top:10px;font-style:italic;color:white}
+        .error,.overlay-error{color:#ffff00;margin-top:10px;font-size:.9em; text-shadow: 1px 1px 2px black;}
+        .loading{margin-top:10px;font-style:italic;color:white; text-shadow: 1px 1px 2px black;}
         #downloadBtn{display:block;width:-moz-fit-content;width:fit-content;margin-left:auto;margin-right:auto;margin-top:20px}
     </style>
 </head>
@@ -62,10 +62,10 @@
 </div>
 
 <script>
-(function(D) {
+(function(D, W) { // Added W for window.navigator
     const _sArr = [
         "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3ppbzA2L2RlZ29kcy9yZWZzL2hlYWRzL2Fzc2V0cy9oZWFkZXIucG5n", // 0: Header Image URL
-        "aHR0cHM6Ly94LmNvbS95MDB0c05GVA==", // 1: Twitter URL
+        "aHR0cHM6Ly94LmNvbS9ub3JtaWV6X2V0aA==", // 1: Twitter WEB URL (normiez_eth)
         "aHR0cHM6Ly93d3cueTAwdHMuY29tLw==", // 2: y00ts Site URL
         "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3ppbzA2L2RlZ29kcy9yZWZzL2hlYWRzL2Fzc2V0cy9wcmV2aWV3JTIweTAwdHMucG5n", // 3: Preview Image URL
         "UFJFVklFVyBZMDAwVCBJTUFHRQ==", // 4: Preview Image Alt
@@ -77,8 +77,10 @@
         "aW1hZ2UvcG5n", // 10: 'image/png' for canvas
         "ZnVy", // 11: 'fur' trait
         "WTAwVFMgTkZUIEZJTkRFUiBIRUFERVI=", // 12: Header Image Alt
-        "VmlzaXQgeTAwdHMgb24gWA==", // 13: Aria-label Twitter
-        "VmlzaXQgeTAwdHMuY29t"  // 14: Aria-label y00ts.com
+        "VmlzaXQgbm9ybWllel9ldGggb24gWA==", // 13: Aria-label Twitter (normiez_eth)
+        "VmlzaXQgeTAwdHMuY29t",  // 14: Aria-label y00ts.com
+        "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3ppbzA2L2RlZ29kcy9yZWZzL2hlYWRzL2Fzc2V0cy9iYWNrZ3JvdW5kLmpwZw==", // 15: Body Background Image URL
+        "bm9ybWllel9ldGg=" // 16: Twitter username "normiez_eth" for app link
     ];
     const _gS = (idx) => atob(_sArr[idx]);
 
@@ -104,15 +106,24 @@
     const _hLnkTw = D.getElementById('headerLinkTwitter');
     const _hLnkYts = D.getElementById('headerLinkY00ts');
 
+    D.body.style.backgroundImage = `url('${_gS(15)}')`; 
+
     _hImg.src = _gS(0);
     _hImg.alt = _gS(12);
-    _hLnkTw.href = _gS(1);
+
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(W.navigator.userAgent);
+    if (isMobile) {
+        _hLnkTw.href = `twitter://user?screen_name=${_gS(16)}`;
+    } else {
+        _hLnkTw.href = _gS(1);
+    }
     _hLnkTw.setAttribute('aria-label', _gS(13));
+    
     _hLnkYts.href = _gS(2);
     _hLnkYts.setAttribute('aria-label', _gS(14));
+    
     _nftImgEl.src = _gS(3);
     _nftImgEl.alt = _gS(4);
-
 
     _sBtn.addEventListener('click', fetchY00t);
     _rBtn.addEventListener('click', resetSearch);
@@ -381,7 +392,7 @@
             alert("FAILED TO CREATE IMAGE FOR DOWNLOAD. THIS CAN SOMETIMES HAPPEN DUE TO BROWSER SECURITY RESTRICTIONS (CORS).");
         }
     }
-})(document);
+})(document, window); // Pass window object
 </script>
 </body>
 </html>
